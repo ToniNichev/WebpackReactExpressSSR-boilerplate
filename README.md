@@ -5,7 +5,10 @@
 
 - Run for development:
 
-- start with express SSR server and webpack-dev-server
+- start with express SSR server 
+
+and webpack-dev-server
+
 yarn start-dev
 
 or only with webpack-dev-server
