@@ -6,8 +6,8 @@ import Loadable from 'react-loadable';
 import manifest from './dist/loadable-manifest.json';
 import { getBundles } from 'react-loadable/webpack';
 import ReactDOMServer from 'react-dom/server';
-import Html from './html.js';
-
+import PageData from './src/containers/PageLayout/PageData'; 
+import templateList from './src/templates/TemplateList';
 
 const {APP_HOST, SERVER_PORT} = process.env;
 
@@ -17,8 +17,8 @@ app.use('/server-build', express.static('./server-build'));
 app.use('/dist', express.static('dist')); // to serve frontent prod static files
 app.use('/favicon.ico', express.static('./static-assets/favicon.ico'));
 
-function response(req, res, apiData) {
-  
+function response(req, res, apiData, templateName) {
+  const Html = templateList[templateName];
   // Prepare to get list of all modules that have to be loaded for this route
   let modules = [];
   ReactDOMServer.renderToString(
@@ -60,7 +60,8 @@ app.get('/*', (req, res) => {
         whichComponent : false
       }
     }
-    response(req, res, apiData);
+    const templateName = PageData[req.url].template;    
+    response(req, res, apiData, templateName);
   });  
 });
 
