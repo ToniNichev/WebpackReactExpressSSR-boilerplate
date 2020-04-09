@@ -1,21 +1,24 @@
 import React, { Component, useEffect, useState } from 'react';
 import styles from './styles.scss';
 
-const CHANGE_USERNAME = 'CHANGE_USERNAME';
+const data = typeof window == 'undefined' ? 'no data on server side' : __API_DATA__.about;
 
-const AboutContainer = (state) => {
-  const [which, setWhich] = useState(false);
+const AboutContainer = () => {
+  const [which, setWhich] = useState(data.whichComponent);
+  const [user, userNameChanged] = useState(data.userName);
 
-  function handleChange() {
-    const userName = 'TEST1231221';
-    state.onEdit(userName);
+  function handleChange(obj) {
+    document.title = obj.target.value;
+    __API_DATA__.about.userName = obj.target.value;
+    userNameChanged(obj.target.value);
   }
 
   function switchComponents() {
-    setWhich(!which);
+    data.whichComponent = !which;
+    setWhich(data.whichComponent);
   }
 
-  let componentA = (<p>This is <input type="text" name="username" value={state.userName} onChange={() => { handleChange() }} /></p>);
+  let componentA = (<p>This is <input type="text" name="username" value={user} onChange={(obj) => { handleChange(obj) }} /></p>);
   let componentB = (<p>Another component</p>)
   return (
     <div className={styles.wrapper}>

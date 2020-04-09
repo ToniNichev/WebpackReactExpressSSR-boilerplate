@@ -53,6 +53,13 @@ app.get('/*', (req, res) => {
       return response.json();
   })
   .then(function(apiData) {
+    apiData = {
+      home: apiData,
+      about: {
+        userName : "Test",
+        whichComponent : false
+      }
+    }
     response(req, res, apiData);
   });  
 });
